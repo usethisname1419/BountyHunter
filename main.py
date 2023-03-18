@@ -20,7 +20,7 @@ proxies = {
 Corexital = False
 t1 = datetime.now()
 print("CURRENT TIME", t1)
-print('Port 22 Bounty Hunter')
+print('Port 22 Bounty Hunter Written by Derek Johnston')
 def startintro():
 
     for c in itertools.cycle(['*', '**', '***', '****']):
