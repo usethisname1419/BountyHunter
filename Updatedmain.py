@@ -59,13 +59,17 @@ print("")
 
 seed = input("Enter First Octet example- '192' '172' '10':   ")
 def make_list():
-    octet2 = (random.randrange(255))
-    octet3 = (random.randrange(255))
-    octet4 = (random.randrange(255))
-    result = (octet2, octet3, octet4)
-    print (''.join(map(str, result)))
+    for x in range(250):
+        octet2 = (random.randrange(255))
+        octet3 = (random.randrange(255))
+        octet4 = (random.randrange(255))
+        tarlist = ('targets.txt')
+        with open(tarlist, 'w') as tl:
+                ipadd = (seed,'.'+ str(octet2),'.' + str(octet3),'.' + str(octet4).lstrip(' '))
+                tl.writelines(ipadd)
 
 
+make_list()
 ##################ENDING LIST POPULATION##########################
 
 def attack():
