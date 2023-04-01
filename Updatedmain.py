@@ -79,31 +79,32 @@ print("INIT...")
 ##################ENDING LIST POPULATION##########################
 
 def attack():
-    with open(tarlist, 'r') as rl:
-        x = rl.readlines()
-
+    
+    
+    port = 22
+    address = x
     print(Style.BRIGHT + Fore.YELLOW + 'Scanning:', x)
 
-    print(Style.BRIGHT + Fore.GREEN + Back.RED + "AT: " + Style.BRIGHT + Fore.RED + Back.GREEN + "TIMESTAMP",
-          str(datetime.now()))
+    
+    
     print(Style.RESET_ALL + "")
     
 
     try:
-        for port in range(21, 22):
+        
             requests.get(url='https://google.com', proxies=proxies)
             remoteaddr = socket.gethostname()
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             socket.setdefaulttimeout(2)
             result = s.connect((remoteaddr, port))
-        
-            if result == 0:
-                print("Port 22:OPEN")
+            print(Style.BRIGHT + Fore.GREEN + Back.RED + "AT: " + Style.BRIGHT + Fore.RED + Back.GREEN + "TIMESTAMP", str(datetime.now()))
+            if result ==0:
+                print(Style.RESET_ALL + "Port 22:OPEN")
 
-            if result == 1:
-                print("Port 22:CLOSED")
+            else:
+                print(Style.RESET_ALL + "Port 22:CLOSED")
             s.close()
-
+         
     except KeyboardInterrupt:
         print("Cancelled")
         sys.exit()
@@ -113,6 +114,8 @@ def attack():
     except socket.error:
         print("its fuked up man")
 
+with open(tarlist, 'r') as rl:
+        x = rl.readlines()
 
 attack()
 
