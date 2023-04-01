@@ -87,7 +87,7 @@ print("START")
 def attack():
     port = 22
     address = x
-    print(Style.BRIGHT + Fore.GREEN + Back.RED + "AT: " + Style.BRIGHT + Fore.RED + Back.GREEN + "TIMESTAMP",
+    print(Style.BRIGHT + Fore.GREEN + Back.RED + "AT: " + Style.BRIGHT + Fore.RED  + "TIMESTAMP",
           str(datetime.now()))
     print(Style.RESET_ALL + "")
     print(Style.BRIGHT + Fore.YELLOW + 'Scanning:', x)
